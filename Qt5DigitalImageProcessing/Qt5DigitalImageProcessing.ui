@@ -75,7 +75,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QPushButton" name="pushButtonMirrorTB">
+          <widget class="QPushButton" name="pushButtonMirrorVertical">
            <property name="text">
             <string>上下镜像</string>
            </property>
@@ -89,7 +89,7 @@
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QPushButton" name="pushButtonMirrorLR">
+          <widget class="QPushButton" name="pushButtonMirrorHorizontal">
            <property name="text">
             <string>左右镜像</string>
            </property>
@@ -661,7 +661,24 @@
  <resources>
   <include location="Qt5DigitalImageProcessing.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>on_pushButtonSelectImage_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>612</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <designerdata>
   <property name="gridDeltaX">
    <number>10</number>

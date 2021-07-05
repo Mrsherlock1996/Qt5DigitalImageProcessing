@@ -41,5 +41,8 @@ private slots:
 	void on_pushButtonSelectImage_clicked();
 	void on_pushButtonPreImg_clicked();
 	void on_pushButtonNextImg_clicked();
-
+	void on_pushButtonTurnLeft_clicked();
+	void on_pushButtonTurnRight_clicked();
+	void on_pushButtonMirrorHorizontal_clicked();
+	void on_pushButtonMirrorVertical_clicked();
 };

@@ -36,6 +36,7 @@ Qt5DigitalImageProcessing::~Qt5DigitalImageProcessing()
 /*
 选择图片按钮
 	功能: 加载图片,大label显示选择图片,小label第一个显示当前图片缩略图,其他小label显示其他图片缩略图
+	该槽函数同时通过ui界面的方法关联了QAction对象actionOpen
 */
 void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 {
@@ -330,5 +331,75 @@ void Qt5DigitalImageProcessing::on_pushButtonNextImg_clicked()
 		//状态栏显示路径
 		QLabel* showImgPath = ui.statusBar->findChild<QLabel*>("status");	//标签对象status在构造函数中声明
 		showImgPath->setText(srcDirPath);	//显示第一张即大图片地址
+	}
+}
+
+//当前图片向左旋转(大Label)
+void Qt5DigitalImageProcessing::on_pushButtonTurnLeft_clicked()
+{
+	if (ui.labelShow->pixmap() != nullptr)
+	{
+		QMatrix matrix;
+		matrix.rotate(-90);
+		QImage images(ui.labelShow->pixmap()->toImage()); 
+		//pixmap()返回QPixmap对象,QPixmap::toImage()返回QImage对象
+		images = images.transformed(matrix, Qt::FastTransformation);
+		//图片在选择和显示时已通过ImageProcess::imageCenter()调整过尺寸,不再调整
+		ui.labelShow->setPixmap(QPixmap::fromImage(images));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE", QMessageBox::Ok);
+	}
+}
+
+//当前图片向右旋转
+void Qt5DigitalImageProcessing::on_pushButtonTurnRight_clicked()
+{
+	if (ui.labelShow->pixmap() != nullptr)
+	{
+		QMatrix matrix;
+		matrix.rotate(90);
+		QImage images(ui.labelShow->pixmap()->toImage());
+		//pixmap()返回QPixmap对象,QPixmap::toImage()返回QImage对象
+		images = images.transformed(matrix, Qt::FastTransformation);
+		//图片在选择和显示时已通过ImageProcess::imageCenter()调整过尺寸,不再调整
+		ui.labelShow->setPixmap(QPixmap::fromImage(images));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else {
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE", QMessageBox::Ok);
+	}
+}
+
+//当前Label图片水平镜像
+void Qt5DigitalImageProcessing::on_pushButtonMirrorHorizontal_clicked()
+{
+	if (ui.labelShow->pixmap() != nullptr)
+	{
+		QImage images(ui.labelShow->pixmap()->toImage());
+		images = images.mirrored(true, false);
+		ui.labelShow->setPixmap(QPixmap::fromImage(images));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE", QMessageBox::Ok);
+	}
+}
+
+//当前Label图片垂直镜像
+void Qt5DigitalImageProcessing::on_pushButtonMirrorVertical_clicked()
+{
+	if (ui.labelShow->pixmap() != nullptr)
+	{
+		QImage images(ui.labelShow->pixmap()->toImage());
+		images = images.mirrored(false, true);
+		ui.labelShow->setPixmap(QPixmap::fromImage(images));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE", QMessageBox::Ok);
 	}
 }
