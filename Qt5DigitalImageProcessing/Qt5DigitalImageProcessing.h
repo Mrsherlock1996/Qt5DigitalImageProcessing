@@ -45,4 +45,7 @@ private slots:
 	void on_pushButtonTurnRight_clicked();
 	void on_pushButtonMirrorHorizontal_clicked();
 	void on_pushButtonMirrorVertical_clicked();
+	void on_pushButtonSaveImg_clicked();
+	void on_checkBoxWaterMark_clicked();
+
 };

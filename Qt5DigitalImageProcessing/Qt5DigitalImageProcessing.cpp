@@ -403,3 +403,60 @@ void Qt5DigitalImageProcessing::on_pushButtonMirrorVertical_clicked()
 		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE", QMessageBox::Ok);
 	}
 }
+
+
+//水印功能暂不指定手动添加水印图片,可以改进
+//水印增加预览功能,选中则显示有水印的图片,不选择则显示没有水印的图片
+void Qt5DigitalImageProcessing::on_checkBoxWaterMark_clicked()
+{
+
+	QImage backupImage(ui.labelShow->pixmap()->toImage()); //用于取消水印时显示
+	bool ck = ui.checkBoxWaterMark->checkState();
+	if (ck==true)	//水印按钮选中, 添加水印
+	{	
+		if (ui.labelShow->pixmap() != nullptr)	//已加载图片
+		{
+			QImage image = backupImage;
+			QImage wmImage("images/waterMark.png");//指定水印图片
+
+			int wmWidth = wmImage.width();
+			int wmHeight = wmImage.height();
+			int r, g, b;
+			//从图片左上角0,0点开始将水印图片覆盖到图片中
+			for (int y = 0; y < wmHeight; y++)
+			{
+				for (int x = 0; x < wmWidth; x++)
+				{
+					QColor color(QColor(wmImage.pixel(x, y)));
+					r = color.red();
+					g = color.green();
+					b = color.blue();
+					if (r == 0 && b == 0 && g == 0)
+					{
+						image.setPixelColor(x, y, qRgb(0, 0, 0));
+					}
+					else
+					{
+						image.setPixelColor(x, y, QColor(qRgb(r,g,b)));
+					}
+				}
+			}
+			ui.labelShow->setPixmap(QPixmap::fromImage(image));
+		}
+		else//未加载图片
+		{
+			QMessageBox::warning(nullptr, "WARNING", "NO IMAGES!", QMessageBox::Ok);
+		}
+	}
+	else if(ck ==false)
+	{
+		ui.labelShow->setPixmap(QPixmap::fromImage(backupImage));
+	}
+}
+
+//保存当前图片(需跳出对话框指定路径)
+void  Qt5DigitalImageProcessing::on_pushButtonSaveImg_clicked()
+{
+
+}
+
