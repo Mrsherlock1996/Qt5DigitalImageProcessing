@@ -661,24 +661,7 @@
  <resources>
   <include location="Qt5DigitalImageProcessing.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushButtonSelectImage</sender>
-   <signal>released()</signal>
-   <receiver>Qt5DigitalImageProcessingClass</receiver>
-   <slot>on_pushButtonSelectImage_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1096</x>
-     <y>97</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>612</x>
-     <y>377</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <designerdata>
   <property name="gridDeltaX">
    <number>10</number>

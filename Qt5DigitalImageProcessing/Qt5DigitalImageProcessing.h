@@ -21,7 +21,7 @@ class Qt5DigitalImageProcessing : public QMainWindow
 public:
     explicit Qt5DigitalImageProcessing(QWidget *parent = Q_NULLPTR);
 	~Qt5DigitalImageProcessing();
-	int _index = 0; //图片index
+	int _index = 0; //图片索引
 	int _type = 0; //视频操作类型
 
 
@@ -34,9 +34,12 @@ private:
 	cv::VideoCapture _capture;
 	int _playRate;
 	int _delay;
-	QMessageBox _customMsgBox;
-	QStringList _imgsPathList;
+	QMessageBox _customMsgBox;	//消息对话框
+	QStringList _imgsPathList;	//图像路径列表
 
 private slots:
 	void on_pushButtonSelectImage_clicked();
+	void on_pushButtonPreImg_clicked();
+	void on_pushButtonNextImg_clicked();
+
 };
