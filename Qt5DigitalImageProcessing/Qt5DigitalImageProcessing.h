@@ -37,6 +37,7 @@ private:
 	QMessageBox _customMsgBox;	//消息对话框
 	QStringList _imgsPathList;	//图像路径列表
 
+
 private slots:
 	void on_pushButtonSelectImage_clicked();
 	void on_pushButtonPreImg_clicked();

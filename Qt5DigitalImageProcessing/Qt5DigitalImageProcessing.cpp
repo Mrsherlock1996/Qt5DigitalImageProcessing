@@ -1,5 +1,7 @@
 #include "Qt5DigitalImageProcessing.h"
 #include <qdebug.h>
+
+
 Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -406,17 +408,16 @@ void Qt5DigitalImageProcessing::on_pushButtonMirrorVertical_clicked()
 
 
 //水印功能暂不指定手动添加水印图片,可以改进
-//水印增加预览功能,选中则显示有水印的图片,不选择则显示没有水印的图片
+//水印增加预览功能,选中则显示有水印的图片,消除水印只需要切换上下张图片
+//保存时水印被选中则保存带水印图片
 void Qt5DigitalImageProcessing::on_checkBoxWaterMark_clicked()
 {
 
-	QImage backupImage(ui.labelShow->pixmap()->toImage()); //用于取消水印时显示
-	bool ck = ui.checkBoxWaterMark->checkState();
-	if (ck==true)	//水印按钮选中, 添加水印
+	if (ui.checkBoxWaterMark->isChecked())	//水印按钮选中, 添加水印
 	{	
 		if (ui.labelShow->pixmap() != nullptr)	//已加载图片
 		{
-			QImage image = backupImage;
+			QImage image = ui.labelShow->pixmap()->toImage();  
 			QImage wmImage("images/waterMark.png");//指定水印图片
 
 			int wmWidth = wmImage.width();
@@ -447,16 +448,49 @@ void Qt5DigitalImageProcessing::on_checkBoxWaterMark_clicked()
 		{
 			QMessageBox::warning(nullptr, "WARNING", "NO IMAGES!", QMessageBox::Ok);
 		}
+	
 	}
-	else if(ck ==false)
+	else
 	{
-		ui.labelShow->setPixmap(QPixmap::fromImage(backupImage));
+		if (ui.labelShow->pixmap() != nullptr)
+		{
+			//不太方便实现,暂时不实现消除水印功能,仅通过上下张等按钮实现
+			//QMessageBox::warning(nullptr, "WARNING", "Dismark image please push 上一张 or 下一张 buttons", QMessageBox::Ok);
+		}
+		else//未加载图片
+		{
+			QMessageBox::warning(nullptr, "WARNING", "NO IMAGES!", QMessageBox::Ok);
+		}
 	}
+	
 }
 
-//保存当前图片(需跳出对话框指定路径)
+//保存当前label图片(需跳出对话框指定路径)
+//这里处理的图片也只是label图片,非原始图片图片
 void  Qt5DigitalImageProcessing::on_pushButtonSaveImg_clicked()
 {
-
+	if (ui.labelShow->pixmap() != nullptr)
+	{
+		QString savePath;
+		QFileDialog file;
+		savePath = file.getSaveFileName(this, "Select a path to save image", QDir::currentPath(), "png(*.png);;jpg(*.jpg);;jpeg(*.jpeg);;gif(*.gif);;all(*.*)");
+		QImage image = ui.labelShow->pixmap()->toImage();
+		bool saveOk;
+		saveOk = image.save(savePath);
+		if (saveOk)
+		{
+			//ui.statusBar->showMessage(QString("save image OK at " + savePath));
+			QMessageBox::information(this, "SAVE OK", QString("save image OK at \n" + savePath), QMessageBox::Ok);
+		}
+		else
+		{
+			//ui.statusBar->showMessage("Sorry, Image save ERROR!");
+			QMessageBox::warning(this, "NOT SAVE", "SORRY! Image save ERROR!", QMessageBox::Ok);
+		}
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+	}
 }
 
