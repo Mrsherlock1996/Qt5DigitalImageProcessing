@@ -8,8 +8,29 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
     ui.setupUi(this);
 	_playRate = 1;
 	_delay = 0;
+	this->resize(QSize(1440, 720));
+	//默认关闭如下按钮,初始化
+	//关闭前后张
 	ui.pushButtonPreImg->setDisabled(true);
 	ui.pushButtonNextImg->setDisabled(true);
+	//关闭水印
+	ui.checkBoxWaterMark->setCheckState(Qt::Unchecked);
+	//关闭二值化区域组件
+	ui.checkBoxThreshold->setCheckState(Qt::Unchecked);
+	ui.horizontalSliderThrMax->setDisabled(true);
+	ui.horizontalSliderThrMin->setDisabled(true);
+	ui.labelThreshMaxNum->setDisabled(true);
+	ui.labelThreshMinNum->setDisabled(true);
+	//初始化亮度对比度滑动条并将其关闭,加载图片后打开
+	ui.horizontalSliderLuminance->setRange(0,255*2);  //实际滑动范围为-255,255,调用时valueL-255
+	ui.horizontalSliderContrast->setRange(0,255*2);
+	ui.horizontalSliderLuminance->setValue(0);
+	ui.horizontalSliderContrast->setValue(0);
+	ui.horizontalSliderContrast->setDisabled(true);
+	ui.horizontalSliderLuminance->setDisabled(true);
+	//初始化亮度对比度标签值
+	ui.labelLuminanceNum->setNum(0);
+	ui.labelContrastNum->setNum(0);
 
 
 	_customMsgBox.setWindowTitle("About Software");
@@ -27,8 +48,7 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
 	permanentLabel->setText("Welcome to using");
 
 	ui.statusBar->addPermanentWidget(permanentLabel);
-	ui.tabWidget->setStyleSheet("QTabWidget:pane {border-top:0px;background:  transparent; }");
-
+	//ui.tabWidget->setStyleSheet("QTabWidget:pane {border-top:0px;background:  transparent; }");
 }
 
 Qt5DigitalImageProcessing::~Qt5DigitalImageProcessing()
@@ -39,6 +59,7 @@ Qt5DigitalImageProcessing::~Qt5DigitalImageProcessing()
 选择图片按钮
 	功能: 加载图片,大label显示选择图片,小label第一个显示当前图片缩略图,其他小label显示其他图片缩略图
 	该槽函数同时通过ui界面的方法关联了QAction对象actionOpen
+	且选择图片后使能亮度和对比度滑动条
 */
 void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 {
@@ -48,6 +69,11 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 	QString filter("jpg(*.jpg);;png(*.png);;jpeg(*.jpeg);;all(*.*)");
 	fileDlg.resize(QSize(300, 400));	//尝试修改标准对话框初始大小失败,应继承QDialog后封装
 	_imgsPathList= QFileDialog::getOpenFileNames(this, title, QDir::currentPath(),filter );
+	//选择图片后自动使能亮度和对比度滑动条
+	(_imgsPathList.size() > 0) ?
+		(ui.horizontalSliderLuminance->setDisabled(false),ui.horizontalSliderContrast->setDisabled(false)) :
+		(ui.horizontalSliderLuminance->setDisabled(true),ui.horizontalSliderContrast->setDisabled(true));
+
 //加载图片个数大于3时:加载图片,并使小label可见
 	if (_imgsPathList.size() >= 3 )		
 	{
@@ -59,6 +85,7 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;	//labelShow图片路径保存起来,imageprocess时用
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -100,6 +127,7 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;// labelShow图片路径保存起来, imageprocess时用
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -123,6 +151,7 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 			_index = 0;
 		QString srcDirPath = _imgsPathList.at(_index);  //获取路径列表中第1个
 		QImage image(srcDirPath);
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
 		//调整图片格式并显示在labelShow中
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
@@ -178,10 +207,13 @@ void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 
 		QString srcDirPath = _imgsPathList.at(_index);  //获取路径列表中第1个
 		QImage image(srcDirPath);
+
 		//调整图片格式并显示在labelShow中
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -224,6 +256,8 @@ void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -267,6 +301,8 @@ void Qt5DigitalImageProcessing::on_pushButtonNextImg_clicked()
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -309,6 +345,8 @@ void Qt5DigitalImageProcessing::on_pushButtonNextImg_clicked()
 		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
 		//将当前图片展示在小Label中,
 		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
@@ -336,6 +374,10 @@ void Qt5DigitalImageProcessing::on_pushButtonNextImg_clicked()
 	}
 }
 
+
+/*
+旋转镜像的对象都是labelShow的pixmap()中的image,非原图
+*/
 //当前图片向左旋转(大Label)
 void Qt5DigitalImageProcessing::on_pushButtonTurnLeft_clicked()
 {
@@ -410,6 +452,7 @@ void Qt5DigitalImageProcessing::on_pushButtonMirrorVertical_clicked()
 //水印功能暂不指定手动添加水印图片,可以改进
 //水印增加预览功能,选中则显示有水印的图片,消除水印只需要切换上下张图片
 //保存时水印被选中则保存带水印图片
+//水印覆盖目标为labelShow的image非原图
 void Qt5DigitalImageProcessing::on_checkBoxWaterMark_clicked()
 {
 
@@ -465,6 +508,8 @@ void Qt5DigitalImageProcessing::on_checkBoxWaterMark_clicked()
 	
 }
 
+
+
 //保存当前label图片(需跳出对话框指定路径)
 //这里处理的图片也只是label图片,非原始图片图片
 void  Qt5DigitalImageProcessing::on_pushButtonSaveImg_clicked()
@@ -493,4 +538,164 @@ void  Qt5DigitalImageProcessing::on_pushButtonSaveImg_clicked()
 		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
 	}
 }
+/*Digital Image Processing 
+显示原图, 灰度化,边缘检测,均值滤波
+gamma变换, 二值化,对比度,饱和度,rgb数值调整,图片比例,亮度调整
+*/
+
+//显示原图
+void Qt5DigitalImageProcessing::on_pushButtonShowOriginImg_clicked()
+{
+	if (_originPath != nullptr)
+	{
+		ImageProcess imgProcess(this);
+		QImage img(_originPath);
+		img = imgProcess.imageCenter(&img, ui.labelShow);
+		ui.labelShow->setPixmap(QPixmap::fromImage(img));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+	}
+}
+
+//灰度化
+void Qt5DigitalImageProcessing::on_pushButtonCvtGray_clicked()
+{
+	if (_originPath != nullptr)
+	{
+		ImageProcess imgProcess(this);
+		QImage image(_originPath);
+		QImage gray = imgProcess.gray(&image);
+		gray= imgProcess.imageCenter(&gray, ui.labelShow);
+		ui.labelShow->setPixmap(QPixmap::fromImage(gray));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else 
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+	}
+}
+
+//边缘检测
+void Qt5DigitalImageProcessing::on_pushButtonEdgeDetection_clicked()
+{
+	if (_originPath != nullptr)
+	{
+		ImageProcess imgProcess(this);
+		QImage image(_originPath);
+		QImage edgeImg = imgProcess.edge(&image);
+		edgeImg = imgProcess.imageCenter(&edgeImg, ui.labelShow);
+		ui.labelShow->setPixmap(QPixmap::fromImage(edgeImg));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+	}
+}
+//均值滤波
+void Qt5DigitalImageProcessing::on_pushButtonMeanFilter_clicked()
+{
+	if (_originPath != nullptr)
+	{
+		ImageProcess imgProcess(this);
+		QImage image(_originPath);
+		QImage meanFilterImg = imgProcess.meanFilter(&image);
+		meanFilterImg = imgProcess.imageCenter(&meanFilterImg, ui.labelShow);
+		ui.labelShow->setPixmap(QPixmap::fromImage(meanFilterImg));
+		ui.labelShow->setAlignment(Qt::AlignCenter);
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+	}
+
+}
+
+//二值化开关
+//只有当checbox使能时, 才能调节min和max值,否则滑块禁止移动
+//当checbox使能时,初始化splider数值为默认值0,范围255
+//程序启动时默认关闭
+void Qt5DigitalImageProcessing::on_checkBoxThreshold_clicked()
+{
+	if (!_originPath.isNull()) 
+	{
+		if (ui.checkBoxThreshold->checkState() == 2)//被选中
+		{
+			//使能显示标签
+			ui.labelThreshMax->setDisabled(false);
+			ui.labelThreshMin->setDisabled(false);
+			ui.labelThreshMaxNum->setDisabled(false);
+			ui.labelThreshMinNum->setDisabled(false);
+			//使能滑动条
+			ui.horizontalSliderThrMax->setDisabled(false);
+			ui.horizontalSliderThrMin->setDisabled(false);
+			//初始化显示标签值
+			ui.labelThreshMaxNum->setNum(0);
+			ui.labelThreshMinNum->setNum(0);
+			//初始化滑动条范围
+			ui.horizontalSliderThrMax->setValue(0);
+			ui.horizontalSliderThrMin->setValue(0);
+			ui.horizontalSliderThrMax->setMinimum(1);
+			ui.horizontalSliderThrMin->setMinimum(0);
+			ui.horizontalSliderThrMax->setMaximum(255);
+			ui.horizontalSliderThrMin->setMaximum(254);
+
+		}
+		else if (ui.checkBoxThreshold->checkState() == 0)//未被选中
+		{
+			ui.labelThreshMax->setDisabled(true);
+			ui.labelThreshMin->setDisabled(true);
+			ui.labelThreshMaxNum->setDisabled(true);
+			ui.labelThreshMinNum->setDisabled(true);
+			ui.horizontalSliderThrMax->setDisabled(true);
+			ui.horizontalSliderThrMin->setDisabled(true);
+		}
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, "WARNING", "NO IMAGE!", QMessageBox::Ok);
+		ui.checkBoxThreshold->setCheckState(Qt::Unchecked);
+	}
+	
+}
+
+//二值化滑动条
+//在二值化checkbox使能状态下,调整对应slider值,同步到ui的数值标签和labelShow
+void Qt5DigitalImageProcessing::thresholdNumChange()
+{
+	int min = ui.horizontalSliderThrMin->value();
+	int max = ui.horizontalSliderThrMax->value();
+	//opencv二值化
+	ImageProcess imgProcess(this);
+	QImage img;
+	img = imgProcess.imageCenter(&(imgProcess.thresholdImg(
+									&QImage(_originPath), min, max)),ui.labelShow);
+	//更新ui图片显示和min,max标签值
+	ui.labelShow->setPixmap(QPixmap::fromImage(img));
+	ui.labelShow->setAlignment(Qt::AlignCenter);
+	ui.labelThreshMinNum->setNum(min);
+	ui.labelThreshMaxNum->setNum(max);
+
+}
+
+//调整原图亮度滑动条
+//滑动条使能是在加载图片之后
+void Qt5DigitalImageProcessing::adjustLuminanceAndContrast()
+{
+	ImageProcess imgProcess(this);
+	int luminance= ui.horizontalSliderLuminance->value();
+	int contrast = ui.horizontalSliderContrast->value();
+	QImage img(_originPath);
+	//实际为-255,255滑动范围却是0-255*2,因此-255
+	img = imgProcess.adjustLuminanceAndContrast(&img, luminance-255, contrast-255);
+	img = imgProcess.imageCenter(&img, ui.labelShow);
+	ui.labelShow->setPixmap(QPixmap::fromImage(img));
+	ui.labelShow->setAlignment(Qt::AlignCenter);
+	ui.labelContrastNum->setNum(contrast);
+	ui.labelLuminanceNum->setNum(luminance);
+}
+
 

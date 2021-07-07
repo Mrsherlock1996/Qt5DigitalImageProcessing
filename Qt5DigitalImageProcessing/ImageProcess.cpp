@@ -183,34 +183,93 @@ QImage ImageProcess::adjustSaturation(const QImage * image, int value)
 	return img;
 }
 
+//图像亮度调节
+/*
+亮度调节算法如下
+	The formula is:
+		y = [x - 127.5 * (1 - B)] * k + 127.5 * (1 + B);
+		x is the input pixel value
+		y is the output pixel value
+		B is brightness, value range is [-1,1]
+		k is used to adjust contrast,	k = tan( (45 + 44 * c) / 180 * PI );
+		c is contrast, value range is [-1,1]
+*/
+QImage ImageProcess::adjustLuminanceAndContrast(const QImage * image, int valueL, int valueC)
+{
+	//按照算法要求,有两个参数属于-1,1, 所以应对valueL和valueC做范围限制-255,255(截断处理)
+	valueL = (valueL < -255) ? -255 : (valueL > 255) ? 255 : valueL;
+	valueC = (valueC < -255) ? -255 : (valueC > 255) ? 255 : valueC;
+	//按照公式
+	double b = valueL / 255;
+	double c = valueC / 255;
+	double k = tan((45 + 44 * c) / 180 * 3.14); //acos(-1) = PI
+
+	QImage img(*image);
+	int red, green, blue;
+	long int pixelsNum = img.width() * img.height();
+	unsigned int * data = (unsigned int*) img.bits(); //获取原图副本的像素指针
+	for (int i = 0; i < pixelsNum; i++)
+	{
+		//像素点数值计算y = [x - 127.5 * (1 - B)] * k + 127.5 * (1 + B);
+		//qRed(data[i])提取第i个像素的red通道数值
+		red = (qRed(data[i]) - 127.5*(1 - b))*k + 127.5*(1 + b);
+		green = (qGreen(data[i]) - 127.5*(1 - b))*k + 127.5*(1 + b);
+		blue = (qBlue(data[i]) - 127.5*(1 - b))*k + 127.5*(1 + b);
+		//像素值截断处理
+		red = (red < 0x00) ?0x00 : (red > 0xff )? 0xff : red;
+		green = (green < 0x00) ? 0x00 : (green > 0xff) ? 0xff : green;
+		blue = (blue < 0x00) ? 0x00 : (blue > 0xff) ? 0xff : blue;
+		//像素点数值调整
+		data[i] = qRgba(red, green, blue, qAlpha(data[i]));
+	}
+	return img;
+}
+
 //使用Canny算法
 QImage ImageProcess::edge(const QImage * image)
 {
 	ConvertMatQImage cvt;
-	cv::Mat* matImg;
-	cvt.qImageToMat(image, matImg);
+	cv::Mat matImg;
+	cvt.qImageToMat(image, &matImg);
 	cv::Mat cannyMatImg;
 	cv::Mat GaussianMatImg;
 	cv::Mat GrayMatImg;
-	cv::GaussianBlur(*matImg, GaussianMatImg, Size(3, 3), 0, 0);
+	cv::GaussianBlur(matImg, GaussianMatImg, Size(3, 3), 0, 0);
 	cv::cvtColor(GaussianMatImg, GrayMatImg, COLOR_BGR2GRAY);  //这里需要debug,元素类型可能不是BGR可以能是BGRA等
 	int T1 = 40;
 	int T2 = 190;
 	cv::Canny(GrayMatImg, cannyMatImg, T1, T2, 3, true);
 	QImage edgeImg = cvt.matToQImage(&cannyMatImg);
 	return edgeImg;
-};
+}
+
+//二值化OTSU算法
+QImage ImageProcess::thresholdImg(const QImage * image, int min, int max)
+{
+	ConvertMatQImage cvt;
+	QImage img(*image);
+	cv::Mat matImg;
+	cv::Mat gray;
+	cvt.qImageToMat(&img, &matImg);
+	cv::cvtColor(matImg, gray, cv::COLOR_BGR2GRAY);
+
+	cv::threshold(gray, matImg, (double)min, (double)max, cv::THRESH_OTSU);
+
+	img = cvt.matToQImage(&matImg);
+
+	return img;
+}
+;
 
 
 QImage ImageProcess::meanFilter(QImage * image)
 {
-	QImage* newImage = image;
-	cv::Mat* matImage;
+	cv::Mat matImage;
 	ConvertMatQImage cvt;
-	cvt.qImageToMat(newImage, matImage);
-	cv::Mat* matBlur;
-	cv::blur(*matImage, *matBlur, cv::Size(3, 3), cv::Point(-1, -1));
-	QImage qBlur = cvt.matToQImage(matBlur);
+	cvt.qImageToMat(image, &matImage);
+	cv::Mat matBlur;
+	cv::blur(matImage, matBlur, cv::Size(3, 3), cv::Point(-1, -1));
+	QImage qBlur = cvt.matToQImage(&matBlur);
 
 	return qBlur;
 }

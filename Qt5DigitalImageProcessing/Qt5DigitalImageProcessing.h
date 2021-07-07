@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtWidgets/QMainWindow>
 #include "ui_Qt5DigitalImageProcessing.h"
 #include <QMainWindow>
@@ -11,7 +10,7 @@
 #include <qfiledialog.h>
 #include "ImageProcess.h"
 #include "ConvertMatQImage.h"
-
+#include <qcheckbox.h>
 using namespace cv;
 
 class Qt5DigitalImageProcessing : public QMainWindow
@@ -29,7 +28,7 @@ private:
     Ui::Qt5DigitalImageProcessingClass ui;
 	bool _language = true;
 	bool _isstart = false;
-	QString _originPath;
+	QString _originPath;	//ui.labelShow中的图片的原始路径
 	QString _videoPath;
 	cv::VideoCapture _capture;
 	int _playRate;
@@ -39,14 +38,23 @@ private:
 
 
 private slots:
-	void on_pushButtonSelectImage_clicked();
-	void on_pushButtonPreImg_clicked();
-	void on_pushButtonNextImg_clicked();
-	void on_pushButtonTurnLeft_clicked();
-	void on_pushButtonTurnRight_clicked();
-	void on_pushButtonMirrorHorizontal_clicked();
-	void on_pushButtonMirrorVertical_clicked();
-	void on_pushButtonSaveImg_clicked();
-	void on_checkBoxWaterMark_clicked();
+	//on_命名槽函数式自动关联信号槽
+	void on_pushButtonSelectImage_clicked(); //选择图片
+	void on_pushButtonPreImg_clicked();			//上一张
+	void on_pushButtonNextImg_clicked();		//下一张
+	void on_pushButtonTurnLeft_clicked();		//左旋转
+	void on_pushButtonTurnRight_clicked();		//右旋转
+	void on_pushButtonMirrorHorizontal_clicked();		//水平镜像
+	void on_pushButtonMirrorVertical_clicked();		//垂直镜像
+	void on_pushButtonSaveImg_clicked();			//保存图片
+	void on_checkBoxWaterMark_clicked();		//水印
+	void on_pushButtonCvtGray_clicked();		//灰度化
+	void on_pushButtonShowOriginImg_clicked();		//显示原图
+	void on_pushButtonEdgeDetection_clicked();			//边缘检测
+	void on_pushButtonMeanFilter_clicked();			//均值滤波
+	void on_checkBoxThreshold_clicked();			//二值化开关
+	void adjustLuminanceAndContrast();		//调节亮度对比度
 
+	//ui界面关联信号槽
+	void	thresholdNumChange();		//二值化
 };

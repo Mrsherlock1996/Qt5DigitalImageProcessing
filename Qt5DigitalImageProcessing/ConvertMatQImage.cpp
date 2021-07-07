@@ -1,5 +1,5 @@
 #include "ConvertMatQImage.h"
-
+#include "qdebug.h"
 ConvertMatQImage::ConvertMatQImage()
 {
 }
@@ -64,6 +64,7 @@ void ConvertMatQImage::qImageToMat(const QImage * image, cv::Mat* matImage)
 	case QImage::Format_ARGB32:
 	case QImage::Format_RGB32:
 	case QImage::Format_ARGB32_Premultiplied:
+		qDebug() << image->format();
 		*matImage = cv::Mat(image->height(), image->width(), CV_8UC4, (void*)image->constBits(), image->bytesPerLine());
 		break;
 

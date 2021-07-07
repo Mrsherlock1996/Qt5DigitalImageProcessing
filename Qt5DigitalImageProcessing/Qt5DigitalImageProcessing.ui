@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1225</width>
-    <height>755</height>
+    <width>906</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,197 +15,100 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_5">
-    <item row="0" column="0" rowspan="3">
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
+    <item row="9" column="11">
+     <widget class="QPushButton" name="pushButtonNextImg">
+      <property name="text">
+       <string>下一张</string>
       </property>
-      <property name="usesScrollButtons">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="TabImgProcess">
-       <attribute name="title">
-        <string>图像处理</string>
-       </attribute>
-       <widget class="QLabel" name="labelShow">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>731</width>
-          <height>421</height>
-         </rect>
-        </property>
-        <property name="toolTipDuration">
-         <number>0</number>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-       <widget class="QWidget" name="gridLayoutWidget_4">
-        <property name="geometry">
-         <rect>
-          <x>820</x>
-          <y>260</y>
-          <width>201</width>
-          <height>361</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="checkBoxWaterMark">
-           <property name="text">
-            <string>水印</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="pushButtonNextImg">
-           <property name="text">
-            <string>下一张</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QPushButton" name="pushButtonTurnRight">
-           <property name="text">
-            <string>右旋转</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QPushButton" name="pushButtonMirrorVertical">
-           <property name="text">
-            <string>上下镜像</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QPushButton" name="pushButtonSaveImg">
-           <property name="text">
-            <string>保存图片</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QPushButton" name="pushButtonMirrorHorizontal">
-           <property name="text">
-            <string>左右镜像</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="pushButtonTurnLeft">
-           <property name="text">
-            <string>左旋转</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QPushButton" name="pushButtonPreImg">
-           <property name="text">
-            <string>上一张</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="horizontalLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>440</y>
-          <width>661</width>
-          <height>161</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="labelOther1">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelOther2">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="labelOther3">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Tab 2</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
-    <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="1">
-       <widget class="QPushButton" name="pushButtonGamma">
-        <property name="text">
-         <string>伽马变换</string>
-        </property>
-       </widget>
-      </item>
+    <item row="3" column="11">
+     <layout class="QGridLayout" name="gridLayout_14"/>
+    </item>
+    <item row="4" column="11">
+     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+    </item>
+    <item row="11" column="12">
+     <layout class="QGridLayout" name="gridLayout_3">
       <item row="3" column="0">
-       <widget class="QPushButton" name="pushButtonMeanFilter">
+       <widget class="QLabel" name="labelColorG">
         <property name="text">
-         <string>均值滤波</string>
+         <string>G</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pushButtonCvtGray">
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelColorB">
         <property name="text">
-         <string>灰度化</string>
+         <string>B</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="pushButtonEdgeDetection">
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelColorR">
         <property name="text">
-         <string>边缘检测</string>
+         <string>   R       </string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="pushButtonSelectImage">
-        <property name="text">
-         <string>选择图片</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="pushButtonShowOriginImg">
-        <property name="text">
-         <string>显示原图</string>
+      <item row="2" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderScale_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButtonEdgeDetectAndOriImg">
+       <widget class="QSlider" name="horizontalSliderScale_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="labelColorRNum">
         <property name="text">
-         <string>边缘检测+原图</string>
+         <string>1.5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="labelColorGNum">
+        <property name="text">
+         <string>1.5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="labelColorBNum">
+        <property name="text">
+         <string>1.5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderScale_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>调整RGB(原图)</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
+    <item row="11" column="10">
+     <layout class="QGridLayout" name="gridLayout_9"/>
+    </item>
+    <item row="11" column="9">
+     <layout class="QGridLayout" name="gridLayout_7"/>
+    </item>
+    <item row="10" column="12">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
        <widget class="QLabel" name="labelScale">
@@ -214,52 +117,31 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="labelSaturation">
-        <property name="text">
-         <string>饱和度</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelLuminance">
-        <property name="text">
-         <string>亮度:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QLabel" name="labelSaturationNum">
+      <item row="2" column="1">
+       <widget class="QLabel" name="labelLuminanceNum">
         <property name="text">
          <string>1.5</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="labelThreshold">
-        <property name="text">
-         <string>二值化</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="labelContrast">
         <property name="text">
          <string>对比度</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
+      <item row="5" column="1">
        <widget class="QLabel" name="labelContrastNum">
         <property name="text">
          <string>1.5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderSaturation">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -270,24 +152,38 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QLabel" name="labelThresholdNum">
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelLuminance">
         <property name="text">
-         <string>1.5</string>
+         <string>亮度:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="labelSaturation">
+        <property name="text">
+         <string>饱和度</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_2">
+       <widget class="QSlider" name="horizontalSliderLuminance">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_3">
+      <item row="6" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderContrast">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLabel" name="labelSaturationNum">
+        <property name="text">
+         <string>1.5</string>
         </property>
        </widget>
       </item>
@@ -298,84 +194,227 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+     </layout>
+    </item>
+    <item row="10" column="11">
+     <layout class="QGridLayout" name="gridLayout_6"/>
+    </item>
+    <item row="11" column="11">
+     <layout class="QGridLayout" name="gridLayout_10">
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButtonSaveImg">
+        <property name="text">
+         <string>保存图片</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="labelLuminance_2">
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="checkBoxWaterMark">
         <property name="text">
-         <string>1.5</string>
+         <string>水印</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="2" column="1">
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelColorG">
-        <property name="text">
-         <string>G</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_8">
+    <item row="0" column="0" rowspan="11" colspan="11">
+     <widget class="QLabel" name="labelShow">
+      <property name="toolTipDuration">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="11">
+     <layout class="QGridLayout" name="gridLayout_12"/>
+    </item>
+    <item row="9" column="12">
+     <layout class="QGridLayout" name="gridLayout_11">
+      <item row="4" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderThrMax">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="labelColorGNum">
+      <item row="1" column="1">
+       <widget class="QLabel" name="labelThreshMinNum">
         <property name="text">
          <string>1.5</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_7">
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelThreshMin">
+        <property name="text">
+         <string>最小值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="labelThreshMaxNum">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderThrMin">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="labelColorB">
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelThreshMax">
         <property name="text">
-         <string>B</string>
+         <string>最大值</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="labelColorR">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkBoxThreshold">
         <property name="text">
-         <string>   R       </string>
+         <string>二值化(原图)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="11" column="0" rowspan="2" colspan="9">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="labelOther1">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelOther2">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelOther3">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="6" column="11">
+     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+    </item>
+    <item row="8" column="11">
+     <widget class="QPushButton" name="pushButtonPreImg">
+      <property name="text">
+       <string>上一张</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="12" rowspan="9">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButtonSelectImage">
+        <property name="text">
+         <string>选择图片</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QPushButton" name="pushButtonTurnRight">
+        <property name="text">
+         <string>右旋转</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>窗口图操作</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QPushButton" name="pushButtonTurnLeft">
+        <property name="text">
+         <string>左旋转</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButtonCvtGray">
+        <property name="text">
+         <string>灰度化</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>原图操作</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="pushButtonEdgeDetection">
+        <property name="text">
+         <string>边缘检测</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pushButtonShowOriginImg">
+        <property name="text">
+         <string>显示原图</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QPushButton" name="pushButtonMirrorHorizontal">
+        <property name="text">
+         <string>左右镜像</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLabel" name="labelColorBNum">
+       <widget class="QPushButton" name="pushButtonGamma">
         <property name="text">
-         <string>1.5</string>
+         <string>伽马变换</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="labelColorRNum">
+      <item row="7" column="1">
+       <widget class="QPushButton" name="pushButtonMirrorVertical">
         <property name="text">
-         <string>1.5</string>
+         <string>上下镜像</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pushButtonMeanFilter">
+        <property name="text">
+         <string>均值滤波</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>PushButton</string>
         </property>
        </widget>
       </item>
@@ -388,7 +427,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1225</width>
+     <width>906</width>
      <height>22</height>
     </rect>
    </property>
@@ -397,8 +436,6 @@
      <string>文件</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="actionVideo"/>
-    <addaction name="actionDock"/>
     <addaction name="actionSave"/>
    </widget>
    <widget class="QMenu" name="menuImgFilters">
@@ -408,8 +445,6 @@
     <addaction name="actionCvtGray"/>
     <addaction name="actionMeanFilter"/>
     <addaction name="actionEdgeDetect"/>
-    <addaction name="actionGammaAndOriImg"/>
-    <addaction name="actionGamma"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -451,21 +486,17 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="separator"/>
-   <addaction name="actionVideo"/>
    <addaction name="separator"/>
    <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionCvtGray"/>
    <addaction name="separator"/>
-   <addaction name="actionGamma"/>
    <addaction name="separator"/>
    <addaction name="actionMeanFilter"/>
    <addaction name="separator"/>
    <addaction name="actionEdgeDetect"/>
    <addaction name="separator"/>
-   <addaction name="actionGammaAndOriImg"/>
    <addaction name="separator"/>
-   <addaction name="actionAbout"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -678,6 +709,134 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>horizontalSliderThrMin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>thresholdNumChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>773</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>553</x>
+     <y>333</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderThrMax</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>thresholdNumChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>755</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>660</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderLuminance</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>adjustLuminanceAndContrast()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>756</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>680</x>
+     <y>450</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderContrast</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>adjustLuminanceAndContrast()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>787</x>
+     <y>484</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>668</x>
+     <y>491</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCvtGray</sender>
+   <signal>triggered()</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>on_pushButtonCvtGray_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEdgeDetect</sender>
+   <signal>triggered()</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>on_pushButtonEdgeDetection_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMeanFilter</sender>
+   <signal>triggered()</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>on_pushButtonMeanFilter_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>on_pushButtonSaveImg_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -698,5 +857,11 @@
  </designerdata>
  <slots>
   <slot>on_pushButtonSelectImage_clicked()</slot>
+  <slot>thresholdNumChange()</slot>
+  <slot>adjustLuminanceAndContrast()</slot>
+  <slot>on_pushButtonCvtGray_clicked()</slot>
+  <slot>on_pushButtonEdgeDetection_clicked()</slot>
+  <slot>on_pushButtonMeanFilter_clicked()</slot>
+  <slot>on_pushButtonSaveImg_clicked()</slot>
  </slots>
 </ui>
