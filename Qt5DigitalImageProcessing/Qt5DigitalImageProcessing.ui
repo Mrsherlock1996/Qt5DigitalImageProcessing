@@ -47,19 +47,19 @@
       <item row="1" column="0">
        <widget class="QLabel" name="labelColorR">
         <property name="text">
-         <string>   R       </string>
+         <string>R       </string>
         </property>
        </widget>
       </item>
       <item row="2" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_6">
+       <widget class="QSlider" name="horizontalSliderR">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="4" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_7">
+       <widget class="QSlider" name="horizontalSliderG">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -87,7 +87,7 @@
        </widget>
       </item>
       <item row="6" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderScale_8">
+       <widget class="QSlider" name="horizontalSliderB">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -837,6 +837,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>horizontalSliderSaturation</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>adjustSaturation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>745</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>683</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <designerdata>
   <property name="gridDeltaX">
@@ -863,5 +879,6 @@
   <slot>on_pushButtonEdgeDetection_clicked()</slot>
   <slot>on_pushButtonMeanFilter_clicked()</slot>
   <slot>on_pushButtonSaveImg_clicked()</slot>
+  <slot>adjustSaturation()</slot>
  </slots>
 </ui>

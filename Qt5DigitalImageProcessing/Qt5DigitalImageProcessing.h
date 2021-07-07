@@ -35,7 +35,7 @@ private:
 	int _delay;
 	QMessageBox _customMsgBox;	//消息对话框
 	QStringList _imgsPathList;	//图像路径列表
-
+	void initial();	//组件初始化函数
 
 private slots:
 	//on_命名槽函数式自动关联信号槽
@@ -54,7 +54,8 @@ private slots:
 	void on_pushButtonMeanFilter_clicked();			//均值滤波
 	void on_checkBoxThreshold_clicked();			//二值化开关
 	void adjustLuminanceAndContrast();		//调节亮度对比度
-
+	void adjustSaturation();			//调整饱和度
 	//ui界面关联信号槽
 	void	thresholdNumChange();		//二值化
+
 };

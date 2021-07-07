@@ -9,29 +9,8 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
 	_playRate = 1;
 	_delay = 0;
 	this->resize(QSize(1440, 720));
-	//默认关闭如下按钮,初始化
-	//关闭前后张
-	ui.pushButtonPreImg->setDisabled(true);
-	ui.pushButtonNextImg->setDisabled(true);
-	//关闭水印
-	ui.checkBoxWaterMark->setCheckState(Qt::Unchecked);
-	//关闭二值化区域组件
-	ui.checkBoxThreshold->setCheckState(Qt::Unchecked);
-	ui.horizontalSliderThrMax->setDisabled(true);
-	ui.horizontalSliderThrMin->setDisabled(true);
-	ui.labelThreshMaxNum->setDisabled(true);
-	ui.labelThreshMinNum->setDisabled(true);
-	//初始化亮度对比度滑动条并将其关闭,加载图片后打开
-	ui.horizontalSliderLuminance->setRange(0,255*2);  //实际滑动范围为-255,255,调用时valueL-255
-	ui.horizontalSliderContrast->setRange(0,255*2);
-	ui.horizontalSliderLuminance->setValue(0);
-	ui.horizontalSliderContrast->setValue(0);
-	ui.horizontalSliderContrast->setDisabled(true);
-	ui.horizontalSliderLuminance->setDisabled(true);
-	//初始化亮度对比度标签值
-	ui.labelLuminanceNum->setNum(0);
-	ui.labelContrastNum->setNum(0);
 
+	initial();		//初始化各种组件
 
 	_customMsgBox.setWindowTitle("About Software");
 	_customMsgBox.addButton("OK", QMessageBox::ActionRole);
@@ -59,7 +38,7 @@ Qt5DigitalImageProcessing::~Qt5DigitalImageProcessing()
 选择图片按钮
 	功能: 加载图片,大label显示选择图片,小label第一个显示当前图片缩略图,其他小label显示其他图片缩略图
 	该槽函数同时通过ui界面的方法关联了QAction对象actionOpen
-	且选择图片后使能亮度和对比度滑动条
+	且选择图片后使能亮度和对比度滑动条和饱和度滑动条使能
 */
 void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 {
@@ -69,10 +48,20 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 	QString filter("jpg(*.jpg);;png(*.png);;jpeg(*.jpeg);;all(*.*)");
 	fileDlg.resize(QSize(300, 400));	//尝试修改标准对话框初始大小失败,应继承QDialog后封装
 	_imgsPathList= QFileDialog::getOpenFileNames(this, title, QDir::currentPath(),filter );
-	//选择图片后自动使能亮度和对比度滑动条
+	//选择图片后自动使能亮度,对比度,饱和度,R,G,B滑动条
 	(_imgsPathList.size() > 0) ?
-		(ui.horizontalSliderLuminance->setDisabled(false),ui.horizontalSliderContrast->setDisabled(false)) :
-		(ui.horizontalSliderLuminance->setDisabled(true),ui.horizontalSliderContrast->setDisabled(true));
+		(ui.horizontalSliderLuminance->setDisabled(false),
+			ui.horizontalSliderContrast->setDisabled(false),
+			ui.horizontalSliderSaturation->setDisabled(false),
+			ui.horizontalSliderB->setDisabled(false),
+			ui.horizontalSliderG->setDisabled(false),
+			ui.horizontalSliderR->setDisabled(false)) :
+			(ui.horizontalSliderLuminance->setDisabled(true),
+				ui.horizontalSliderContrast->setDisabled(true),
+				ui.horizontalSliderSaturation->setDisabled(true),
+				ui.horizontalSliderB->setDisabled(true),
+				ui.horizontalSliderG->setDisabled(true),
+				ui.horizontalSliderR->setDisabled(true));
 
 //加载图片个数大于3时:加载图片,并使小label可见
 	if (_imgsPathList.size() >= 3 )		
@@ -183,6 +172,52 @@ void Qt5DigitalImageProcessing::on_pushButtonSelectImage_clicked()
 	}
 }
 
+//初始化函数,初始化组件状态
+void Qt5DigitalImageProcessing::initial()
+{
+	//默认关闭如下按钮,初始化
+//关闭前后张按钮
+	ui.pushButtonPreImg->setDisabled(true);
+	ui.pushButtonNextImg->setDisabled(true);
+	//关闭水印
+	ui.checkBoxWaterMark->setCheckState(Qt::Unchecked);
+	//关闭二值化区域组件
+	ui.checkBoxThreshold->setCheckState(Qt::Unchecked);
+	ui.horizontalSliderThrMax->setDisabled(true);
+	ui.horizontalSliderThrMin->setDisabled(true);
+	ui.labelThreshMaxNum->setDisabled(true);
+	ui.labelThreshMinNum->setDisabled(true);
+
+	//初始化亮度对比度滑动条并将其关闭,加载图片后打开
+	ui.horizontalSliderLuminance->setRange(0, 255 * 2);  //实际滑动范围为-255,255,调用时valueL-255
+	ui.horizontalSliderContrast->setRange(0, 255 * 2);
+	ui.horizontalSliderLuminance->setValue(0);
+	ui.horizontalSliderContrast->setValue(0);
+	ui.horizontalSliderContrast->setDisabled(true);
+	ui.horizontalSliderLuminance->setDisabled(true);
+	//初始化亮度对比度标签值
+	ui.labelLuminanceNum->setNum(0);
+	ui.labelContrastNum->setNum(0);
+
+	//初始化饱和度滑动条,并将其关闭,加载图片后打开
+	ui.horizontalSliderSaturation->setValue(0);
+	ui.horizontalSliderSaturation->setDisabled(true);
+	ui.horizontalSliderSaturation->setRange(0, 99);
+	//初始化饱和度标签值
+	ui.labelSaturationNum->setNum(0);
+
+	//初始化RGB滑动条, 并将其关闭,加载图片后打开
+	ui.horizontalSliderB->setValue(0);
+	ui.horizontalSliderB->setDisabled(true);
+	ui.horizontalSliderG->setValue(0);
+	ui.horizontalSliderG->setDisabled(true);
+	ui.horizontalSliderR->setValue(0);
+	ui.horizontalSliderR->setDisabled(true);
+	//初始化RGB标签值
+	ui.labelColorBNum->setNum(0);
+	ui.labelColorGNum->setNum(0);
+	ui.labelColorRNum->setNum(0);
+}
 
 /*
 上一张图片按钮
@@ -696,6 +731,18 @@ void Qt5DigitalImageProcessing::adjustLuminanceAndContrast()
 	ui.labelShow->setAlignment(Qt::AlignCenter);
 	ui.labelContrastNum->setNum(contrast);
 	ui.labelLuminanceNum->setNum(luminance);
+}
+
+void Qt5DigitalImageProcessing::adjustSaturation()
+{
+	ImageProcess imgProcess(this);
+	int value = ui.horizontalSliderSaturation->value();
+	QImage img(_originPath);
+	img = imgProcess.adjustSaturation(&img, value);
+	img = imgProcess.imageCenter(&img, ui.labelShow);
+	ui.labelShow->setPixmap(QPixmap::fromImage(img));
+	ui.labelShow->setAlignment(Qt::AlignCenter);
+	ui.labelSaturationNum->setNum(value);
 }
 
 

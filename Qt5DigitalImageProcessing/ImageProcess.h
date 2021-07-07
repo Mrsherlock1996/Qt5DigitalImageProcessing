@@ -24,7 +24,7 @@ public:
 	QImage adjustContrast(const QImage* src_image,  int value);//调整对比度
 	QImage imageCenter(const QImage* qimage, const QLabel* qLabel); //调整图片比例
 	QImage adjustSaturation(const QImage* image, int value);//调整饱和度
-	QImage adjustLuminanceAndContrast(const QImage* image, int valueL, int valueC); //调整亮度
+	QImage adjustLuminanceAndContrast(const QImage* image, int valueL, int valueC); //调整亮度对比度
 	QImage edge(const QImage* image);
 	Mat masaike(const Mat* image);
 	QImage thresholdImg(const QImage* image, int min,int max);

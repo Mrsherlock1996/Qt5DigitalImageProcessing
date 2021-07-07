@@ -129,6 +129,7 @@ QImage ImageProcess::imageCenter(const QImage * qimage, const QLabel * qLabel)
 
 }
 
+//调整饱和度,忘记什么算法了
 QImage ImageProcess::adjustSaturation(const QImage * image, int value)
 {
 	QImage img = *image;
