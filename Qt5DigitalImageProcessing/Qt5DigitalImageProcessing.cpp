@@ -12,15 +12,6 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
 
 	initial();		//初始化各种组件
 
-	_customMsgBox.setWindowTitle("About Software");
-	_customMsgBox.addButton("OK", QMessageBox::ActionRole);
-	_customMsgBox.setText("欢迎使用《多功能图像视频处理》软件！本软件具有简单的图像和视频处理功能。\n"
-		"图像功能包括多选打开、旋转、镜像、灰度化、均值滤波、"
-		"边缘检测、原图复合、伽马检测、二值化、色彩调整、亮度调整、对比度调整、饱和度调整等功能。\n"
-		"视频功能包括暂停、播放、进度条、灰度化、边缘检测、平滑、二值化、局部马赛克、缩放等功能。\n");
-
-	ui.statusBar->showMessage("Welcome", 2000);
-
 	QLabel* permanentLabel = new QLabel(this);
 	permanentLabel->setObjectName("status");			//创建永久的标签对象status,用于下方代码显示路径等
 	permanentLabel->setFrameStyle(QFrame::Box | QFrame::Sunken);
@@ -715,6 +706,64 @@ void Qt5DigitalImageProcessing::thresholdNumChange()
 	ui.labelThreshMaxNum->setNum(max);
 
 }
+
+//Label图像修改RGB值,非原图
+//rgb值改变时,修改_rgbRecord[i]值,表示需要从ui中获取rgb数值
+//_rgbRecord[] 对应值为r,g,b
+//rgb数值修改函数响应逻辑:
+//		QSlider组件发生改变时,先修改成员数组数值,使之参与后续运算
+//		根据成员数组元素值是否参与运算,修改并重置像素rgb数值
+//QSliderRGB滑块组件同样是在初始化时关闭,加载图片后使能
+void Qt5DigitalImageProcessing::rgbChange()
+{
+	//设置rgb参与运算标志,信号发射且未设置标记, 将其参与标志使能
+	if (QObject::sender() == ui.horizontalSliderR &&_rgbRecord[0]==0)
+	{
+		_rgbRecord[0] = 1;
+	}
+	else if (QObject::sender() == ui.horizontalSliderG &&_rgbRecord[1]==0)
+	{
+		_rgbRecord[1] = 1;
+	}
+	else if (QObject::sender() == ui.horizontalSliderB&&_rgbRecord[2]==0)
+	{
+		_rgbRecord[2] = 1;
+	}
+	//按条件设置rgb增量,并修改标签值
+	int redAdd, greenAdd, blueAdd;
+	(_rgbRecord[0] = 1) ? (redAdd = ui.horizontalSliderR->value(),
+		ui.labelColorRNum->setNum(ui.horizontalSliderR->value())) : redAdd = 0;
+	(_rgbRecord[1] = 1) ? (greenAdd = ui.horizontalSliderG->value(),
+		ui.labelColorGNum->setNum(ui.horizontalSliderG->value())) : greenAdd = 0;
+	(_rgbRecord[2] = 1) ? (blueAdd = ui.horizontalSliderB->value(),
+		ui.labelColorBNum->setNum(ui.horizontalSliderB->value())) : blueAdd = 0;
+	//计算newRGB数值
+	QColor color;
+	int red, green, blue;
+	QImage image(ui.labelShow->pixmap()->toImage());
+	int width = image.width();
+	int height = image.height();
+	for (int x = 0; x < width; x++)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			color = QColor(image.pixel(x, y));
+			red = color.red() + redAdd;
+			red > 255 ? 255 : red;
+			green = color.green() + greenAdd;
+			green > 255 ? 255 : green;
+			blue = color.blue() + blueAdd;
+			blue > 255 ? 255 : blue;
+			image.setPixel(x, y, qRgb(red, green, blue));
+		}
+	}
+	ui.labelShow->setPixmap(QPixmap::fromImage(image));
+	ui.labelShow->setAlignment(Qt::AlignCenter);
+}
+
+
+
+
 
 //调整原图亮度滑动条
 //滑动条使能是在加载图片之后

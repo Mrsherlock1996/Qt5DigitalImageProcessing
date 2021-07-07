@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>906</width>
-    <height>705</height>
+    <width>915</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,15 +44,8 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="labelColorR">
-        <property name="text">
-         <string>R       </string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderR">
+      <item row="6" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderB">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -62,6 +55,13 @@
        <widget class="QSlider" name="horizontalSliderG">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>调整RGB(原图)</string>
         </property>
        </widget>
       </item>
@@ -79,6 +79,13 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelColorR">
+        <property name="text">
+         <string>R       </string>
+        </property>
+       </widget>
+      </item>
       <item row="5" column="1">
        <widget class="QLabel" name="labelColorBNum">
         <property name="text">
@@ -86,17 +93,10 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderB">
+      <item row="2" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderR">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>调整RGB(原图)</string>
         </property>
        </widget>
       </item>
@@ -427,7 +427,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>906</width>
+     <width>915</width>
      <height>22</height>
     </rect>
    </property>
@@ -716,8 +716,8 @@
    <slot>thresholdNumChange()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>773</x>
-     <y>342</y>
+     <x>904</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel">
      <x>553</x>
@@ -732,8 +732,8 @@
    <slot>thresholdNumChange()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>755</x>
-     <y>378</y>
+     <x>904</x>
+     <y>369</y>
     </hint>
     <hint type="destinationlabel">
      <x>660</x>
@@ -748,8 +748,8 @@
    <slot>adjustLuminanceAndContrast()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>756</x>
-     <y>454</y>
+     <x>904</x>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>680</x>
@@ -764,8 +764,8 @@
    <slot>adjustLuminanceAndContrast()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>787</x>
-     <y>484</y>
+     <x>904</x>
+     <y>476</y>
     </hint>
     <hint type="destinationlabel">
      <x>668</x>
@@ -844,12 +844,60 @@
    <slot>adjustSaturation()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>745</x>
-     <y>523</y>
+     <x>904</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>683</x>
      <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderR</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>rgbChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>788</x>
+     <y>562</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>648</x>
+     <y>561</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderG</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>rgbChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>807</x>
+     <y>593</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>629</x>
+     <y>594</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderB</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Qt5DigitalImageProcessingClass</receiver>
+   <slot>rgbChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>792</x>
+     <y>631</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>666</x>
+     <y>632</y>
     </hint>
    </hints>
   </connection>
@@ -880,5 +928,6 @@
   <slot>on_pushButtonMeanFilter_clicked()</slot>
   <slot>on_pushButtonSaveImg_clicked()</slot>
   <slot>adjustSaturation()</slot>
+  <slot>rgbChange()</slot>
  </slots>
 </ui>
