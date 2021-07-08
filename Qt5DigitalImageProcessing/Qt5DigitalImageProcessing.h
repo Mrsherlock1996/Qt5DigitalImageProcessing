@@ -9,9 +9,9 @@
 #include <opencv.hpp>
 #include <qfiledialog.h>
 #include "ImageProcess.h"
-#include "ConvertMatQImage.h"
 #include <qcheckbox.h>
 using namespace cv;
+#include <qthread.h>
 
 class Qt5DigitalImageProcessing : public QMainWindow
 {
@@ -22,10 +22,12 @@ public:
 	~Qt5DigitalImageProcessing();
 	int _index = 0; //图片索引
 	int _type = 0; //视频操作类型
-
+	QThread* _thread;
+	ImageProcess* _imgProcess;
 
 private:
     Ui::Qt5DigitalImageProcessingClass ui;
+
 	bool _language = true;
 	bool _isstart = false;
 	QString _originPath;	//ui.labelShow中的图片的原始路径
@@ -63,4 +65,18 @@ private slots:
 	//ui界面关联信号槽
 	void	thresholdNumChange();		//二值化
 	void rgbChange();
+
+signals:
+	//每次都将结果图片地址发射出去,使任务类直接修改给出的QImage对象, 这样可以减少一次发射和一次connect
+	void sendToGray(const QImage* s_image, QImage* result);  //灰度化
+	void sendToSetRGB(const QImage* s_image, int s_valueR, int s_valueG, int s_valueB, QImage* result);//调整RGB值
+	void sendToAdjustContrast(const  QImage* s_src_image, int s_value, QImage* result);//调整对比度
+	void sendToImageCenter(const QImage* s_qimage, const QLabel* s_qLabel, QImage* result); //调整图片比例
+	void sendToAdjustSaturation(const QImage* s_image, int s_value, QImage* result);//调整饱和度
+	void sendToAdjustLuminanceAndContrast(const QImage* s_image, int s_valueL, int s_valueC, QImage* result); //调整亮度对比度
+	void sendToEdge(const QImage* s_image, QImage* result);
+	void sendToThresholdImg(const QImage* s_image, int s_min, int s_max, QImage* result);
+	void sendToMeanFilter(QImage*s_image, QImage* result);
+
+
 };

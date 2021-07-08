@@ -10,6 +10,48 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
 	_delay = 0;
 	this->resize(QSize(1440, 720));
 
+	_imgProcess = new ImageProcess; 
+	_thread = new QThread;
+	_imgProcess->moveToThread(_thread);
+	_thread->start();
+
+	//关联发射信号和任务类成员函数
+	/* 信号和槽函数重载时,需要static_cast<>()指出具体函数
+	connect(		&newspaper,
+						static_cast<void (Newspaper:: *)(const QString, const QDate)>(&Newspaper::newPaper),
+						&reader,
+						static_cast<void (Reader:: *)(const QString, const QDate)>(&Reader::receiveNewspaper)
+						);
+*/
+	connect(this, &Qt5DigitalImageProcessing::sendToGray,
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage*, QImage*)>( &ImageProcess::gray));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToSetRGB, 
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , int , int , int , QImage* )>(&ImageProcess::setRGB));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToAdjustContrast,
+		_imgProcess, static_cast<void(ImageProcess::*)(const  QImage* , int , QImage* )>(&ImageProcess::adjustContrast));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToImageCenter, 
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , const QLabel* , QImage* )>(&ImageProcess::imageCenter));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToAdjustSaturation, 
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , int , QImage* )>(&ImageProcess::adjustSaturation));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToAdjustLuminanceAndContrast,
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , int , int , QImage* )>(&ImageProcess::adjustLuminanceAndContrast));
+
+	connect(this, &Qt5DigitalImageProcessing::sendToEdge, 
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , QImage* )>(&ImageProcess::edge));
+	
+	connect(this, &Qt5DigitalImageProcessing::sendToThresholdImg,
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , int , int , QImage* )>(&ImageProcess::thresholdImg));
+	
+	connect(this, &Qt5DigitalImageProcessing::sendToMeanFilter,
+		_imgProcess, static_cast<void(ImageProcess::*)(QImage*, QImage* )>(&ImageProcess::meanFilter));
+
+
+
 	initial();		//初始化各种组件
 
 	QLabel* permanentLabel = new QLabel(this);
@@ -223,6 +265,7 @@ void Qt5DigitalImageProcessing::initial()
 */
 void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 {
+	//使用子线程处理
 	ImageProcess imgProcess(this);
 	int imgNum = _imgsPathList.size();
 	if (imgNum>= 3)
@@ -235,27 +278,41 @@ void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 		QImage image(srcDirPath);
 
 		//调整图片格式并显示在labelShow中
-		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
+		//QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
+		QImage centerImage;
+
+		emit	 sendToImageCenter(&image, ui.labelShow,&centerImage);
+	
 		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
 		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
 		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
 
 		//将当前图片展示在小Label中,
-		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
+		//QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
+		QImage  other1Image;
+
+		emit	 sendToImageCenter(&image, ui.labelShow, &other1Image);
+
 		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
 		ui.labelOther1->setAlignment(Qt::AlignCenter);
 
 		//非主图缩略图显示在小label中,即第2张图
 		QString image2Path = _imgsPathList.at((_index + 1) % _imgsPathList.size());   //该余数就是当前索引值
 		QImage image2(image2Path);
-		QImage image2Center = imgProcess.imageCenter(&image2, ui.labelOther2);
+		//QImage image2Center = imgProcess.imageCenter(&image2, ui.labelOther2);
+		QImage image2Center;
+		emit	 sendToImageCenter(&image, ui.labelShow, &image2Center);
+
 		ui.labelOther2->setPixmap(QPixmap::fromImage(image2Center));
 		ui.labelOther2->setAlignment(Qt::AlignCenter);
 
 		//非主图缩略图显示在小label中,即第3张图
 		QString image3Path = _imgsPathList.at((_index + 2) % _imgsPathList.size());   //该余数就是当前索引值
 		QImage image3(image3Path);
-		QImage image3Center = imgProcess.imageCenter(&image3, ui.labelOther3);
+		//QImage image3Center = imgProcess.imageCenter(&image3, ui.labelOther3);
+		QImage image3Center;
+		emit	 sendToImageCenter(&image, ui.labelShow, &image3Center);
+
 		ui.labelOther3->setPixmap(QPixmap::fromImage(image3Center));
 		ui.labelOther3->setAlignment(Qt::AlignCenter);
 
