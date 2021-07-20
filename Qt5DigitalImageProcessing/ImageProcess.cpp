@@ -212,22 +212,25 @@ QImage ImageProcess::imageCenter(const QImage * qimage, const QLabel * qLabel)
 	//获取高度比
 	double dWidthRatio = 1.0*imageSize.width() / labelSize.width();
 	double dHeightRatio = 1.0*imageSize.height() / labelSize.height();
-	//按比值缩放图片
-	if (dWidthRatio > dHeightRatio)
-	{
-		image = qimage->scaledToWidth(labelSize.width());
-	}
-	else
-	{
-		image = qimage->scaledToHeight(labelSize.height());
-	}
+	//按比值缩放图片,容易使label变化
+	//if (dWidthRatio > dHeightRatio)
+	//{
+	//	image = qimage->scaledToWidth(labelSize.width());
+	//}
+	//else
+	//{
+	//	image = qimage->scaledToHeight(labelSize.height());
+	//}
+
+	//image = qimage->scaled(labelSize);//容易变形
+	image = qimage->scaled(labelSize, Qt::KeepAspectRatio);//保持原比例缩放到label中,这种效果最好
 	return image;
 
 }
 
-void ImageProcess::imageCenter(const QImage * qimage, const QLabel * qLabel, QImage* result)
+void ImageProcess::imageCenter(const QImage * qimage, const QLabel * qLabel, QImage *result)
 {
-
+	*result = *qimage;
 	QSize imageSize = qimage->size();
 	QSize labelSize = qLabel->size();
 

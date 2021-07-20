@@ -71,7 +71,7 @@ signals:
 	void sendToGray(const QImage* s_image, QImage* result);  //灰度化
 	void sendToSetRGB(const QImage* s_image, int s_valueR, int s_valueG, int s_valueB, QImage* result);//调整RGB值
 	void sendToAdjustContrast(const  QImage* s_src_image, int s_value, QImage* result);//调整对比度
-	void sendToImageCenter(const QImage* s_qimage, const QLabel* s_qLabel, QImage* result); //调整图片比例
+	void sendToImageCenter( const QImage* s_qimage, const QLabel* s_qLabel, QImage* result); //调整图片比例
 	void sendToAdjustSaturation(const QImage* s_image, int s_value, QImage* result);//调整饱和度
 	void sendToAdjustLuminanceAndContrast(const QImage* s_image, int s_valueL, int s_valueC, QImage* result); //调整亮度对比度
 	void sendToEdge(const QImage* s_image, QImage* result);

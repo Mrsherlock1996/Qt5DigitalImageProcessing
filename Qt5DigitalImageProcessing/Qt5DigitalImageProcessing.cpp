@@ -33,7 +33,7 @@ Qt5DigitalImageProcessing::Qt5DigitalImageProcessing(QWidget *parent)
 		_imgProcess, static_cast<void(ImageProcess::*)(const  QImage* , int , QImage* )>(&ImageProcess::adjustContrast));
 
 	connect(this, &Qt5DigitalImageProcessing::sendToImageCenter, 
-		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , const QLabel* , QImage* )>(&ImageProcess::imageCenter));
+		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , const QLabel* , QImage *)>(&ImageProcess::imageCenter));
 
 	connect(this, &Qt5DigitalImageProcessing::sendToAdjustSaturation, 
 		_imgProcess, static_cast<void(ImageProcess::*)(const QImage* , int , QImage* )>(&ImageProcess::adjustSaturation));
@@ -263,6 +263,7 @@ void Qt5DigitalImageProcessing::initial()
 					向后定位很简单,只需要 (i+1)%size就能可以实现 下一张的定位, 位置后移 1
 					向前定位需要: 只需要( i+n-1)%n 就可以得到前一张的位置,且不出界 , 即位置前移 1 
 */
+/*
 void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 {
 	//使用子线程处理
@@ -301,7 +302,7 @@ void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 		QImage image2(image2Path);
 		//QImage image2Center = imgProcess.imageCenter(&image2, ui.labelOther2);
 		QImage image2Center;
-		emit	 sendToImageCenter(&image, ui.labelShow, &image2Center);
+		emit	 sendToImageCenter(&image, ui.labelShow,& image2Center);
 
 		ui.labelOther2->setPixmap(QPixmap::fromImage(image2Center));
 		ui.labelOther2->setAlignment(Qt::AlignCenter);
@@ -312,6 +313,103 @@ void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
 		//QImage image3Center = imgProcess.imageCenter(&image3, ui.labelOther3);
 		QImage image3Center;
 		emit	 sendToImageCenter(&image, ui.labelShow, &image3Center);
+
+		ui.labelOther3->setPixmap(QPixmap::fromImage(image3Center));
+		ui.labelOther3->setAlignment(Qt::AlignCenter);
+
+		//将上一张和下一张按钮使能,并显示小标签
+		ui.pushButtonNextImg->setDisabled(false);
+		ui.pushButtonPreImg->setDisabled(false);
+		ui.labelOther1->setVisible(true);
+		ui.labelOther2->setVisible(true);
+		ui.labelOther3->setVisible(true);
+
+
+		//状态栏显示路径
+		QLabel* showImgPath = ui.statusBar->findChild<QLabel*>("status");	//标签对象status在构造函数中声明
+		showImgPath->setText(srcDirPath);	//显示第一张即大图片地址
+	}
+	else if (imgNum == 2)
+	{
+		//先定位出当前图片的位置, 即使用公式 (index+n-1)%n
+		_index = (_index + imgNum - 1) % imgNum;
+
+		QString srcDirPath = _imgsPathList.at(_index);  //获取路径列表中第1个
+		QImage image(srcDirPath);
+		//调整图片格式并显示在labelShow中
+		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
+		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
+		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
+		//将当前图片展示在小Label中,
+		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
+		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
+		ui.labelOther1->setAlignment(Qt::AlignCenter);
+
+		//非主图缩略图显示在小label中,即第2张图
+		QString image2Path = _imgsPathList.at((_index + 1) % _imgsPathList.size());   //该余数就是当前索引值
+		QImage image2(image2Path);
+		QImage image2Center = imgProcess.imageCenter(&image2, ui.labelOther2);
+		ui.labelOther2->setPixmap(QPixmap::fromImage(image2Center));
+		ui.labelOther2->setAlignment(Qt::AlignCenter);
+
+
+		//将上一张和下一张按钮使能,并显示小标签
+		ui.pushButtonNextImg->setDisabled(false);
+		ui.pushButtonPreImg->setDisabled(false);
+		ui.labelOther1->setVisible(true);
+		ui.labelOther2->setVisible(true);
+		ui.labelOther3->setVisible(false);
+
+
+		//状态栏显示路径
+		QLabel* showImgPath = ui.statusBar->findChild<QLabel*>("status");	//标签对象status在构造函数中声明
+		showImgPath->setText(srcDirPath);	//显示第一张即大图片地址
+	}
+}
+*/
+void Qt5DigitalImageProcessing::on_pushButtonPreImg_clicked()
+{
+	ImageProcess imgProcess(this);
+	int imgNum = _imgsPathList.size();
+	if (imgNum >= 3)
+	{
+		//先定位出当前图片的位置, 即使用公式 (index+n-1)%n
+		_index = (_index + imgNum - 1) % imgNum;
+		qDebug() << "_index = " << _index << endl; //测试通过
+
+		QString srcDirPath = _imgsPathList.at(_index);  //获取路径列表中第1个
+		QImage image(srcDirPath);
+
+		//调整图片格式并显示在labelShow中
+		QImage centerImage = imgProcess.imageCenter(&image, ui.labelShow);
+
+		//emit	 sendToImageCenter(&image, ui.labelShow, &centerImage);
+
+		ui.labelShow->setPixmap(QPixmap::fromImage(centerImage));
+		ui.labelShow->setAlignment(Qt::AlignCenter); //消除图片和label间隙
+		_originPath = srcDirPath;//labelShow图片路径保存起来,imageprocess时用
+
+		//将当前图片展示在小Label中,
+		QImage  other1Image = imgProcess.imageCenter(&image, ui.labelOther1);
+
+
+		ui.labelOther1->setPixmap(QPixmap::fromImage(other1Image));
+		ui.labelOther1->setAlignment(Qt::AlignCenter);
+
+		//非主图缩略图显示在小label中,即第2张图
+		QString image2Path = _imgsPathList.at((_index + 1) % _imgsPathList.size());   //该余数就是当前索引值
+		QImage image2(image2Path);
+		QImage image2Center = imgProcess.imageCenter(&image2, ui.labelOther2);
+
+		ui.labelOther2->setPixmap(QPixmap::fromImage(image2Center));
+		ui.labelOther2->setAlignment(Qt::AlignCenter);
+
+		//非主图缩略图显示在小label中,即第3张图
+		QString image3Path = _imgsPathList.at((_index + 2) % _imgsPathList.size());   //该余数就是当前索引值
+		QImage image3(image3Path);
+		QImage image3Center = imgProcess.imageCenter(&image3, ui.labelOther3);
 
 		ui.labelOther3->setPixmap(QPixmap::fromImage(image3Center));
 		ui.labelOther3->setAlignment(Qt::AlignCenter);

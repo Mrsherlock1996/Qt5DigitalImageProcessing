@@ -15,18 +15,86 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_5">
-    <item row="9" column="11">
-     <widget class="QPushButton" name="pushButtonNextImg">
-      <property name="text">
-       <string>下一张</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="11">
      <layout class="QGridLayout" name="gridLayout_14"/>
     </item>
-    <item row="4" column="11">
-     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+    <item row="9" column="12">
+     <layout class="QGridLayout" name="gridLayout_11">
+      <item row="4" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderThrMax">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="labelThreshMinNum">
+        <property name="text">
+         <string>1.5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelThreshMin">
+        <property name="text">
+         <string>最小值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="labelThreshMaxNum">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSliderThrMin">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelThreshMax">
+        <property name="text">
+         <string>最大值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkBoxThreshold">
+        <property name="text">
+         <string>二值化(原图)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="11" column="0" rowspan="2" colspan="9">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="labelOther1">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelOther2">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelOther3">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item row="11" column="12">
      <layout class="QGridLayout" name="gridLayout_3">
@@ -102,11 +170,103 @@
       </item>
      </layout>
     </item>
-    <item row="11" column="10">
-     <layout class="QGridLayout" name="gridLayout_9"/>
+    <item row="2" column="11">
+     <layout class="QGridLayout" name="gridLayout_12"/>
     </item>
-    <item row="11" column="9">
-     <layout class="QGridLayout" name="gridLayout_7"/>
+    <item row="0" column="12" rowspan="9">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="6" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>窗口图操作</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pushButtonShowOriginImg">
+        <property name="text">
+         <string>显示原图</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QPushButton" name="pushButtonTurnLeft">
+        <property name="text">
+         <string>左旋转</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QPushButton" name="pushButtonTurnRight">
+        <property name="text">
+         <string>右旋转</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="pushButtonMeanFilter">
+        <property name="text">
+         <string>均值滤波</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButtonSelectImage">
+        <property name="text">
+         <string>选择图片</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="pushButtonEdgeDetection">
+        <property name="text">
+         <string>边缘检测</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QPushButton" name="pushButtonMirrorHorizontal">
+        <property name="text">
+         <string>左右镜像</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="pushButtonGamma">
+        <property name="text">
+         <string>伽马变换</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButtonCvtGray">
+        <property name="text">
+         <string>灰度化</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QPushButton" name="pushButtonMirrorVertical">
+        <property name="text">
+         <string>上下镜像</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>原图操作</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="9" column="11">
+     <widget class="QPushButton" name="pushButtonNextImg">
+      <property name="text">
+       <string>下一张</string>
+      </property>
+     </widget>
     </item>
     <item row="10" column="12">
      <layout class="QGridLayout" name="gridLayout_2">
@@ -196,8 +356,18 @@
       </item>
      </layout>
     </item>
-    <item row="10" column="11">
-     <layout class="QGridLayout" name="gridLayout_6"/>
+    <item row="6" column="11">
+     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+    </item>
+    <item row="8" column="11">
+     <widget class="QPushButton" name="pushButtonPreImg">
+      <property name="text">
+       <string>上一张</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="10">
+     <layout class="QGridLayout" name="gridLayout_9"/>
     </item>
     <item row="11" column="11">
      <layout class="QGridLayout" name="gridLayout_10">
@@ -227,198 +397,14 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="11">
-     <layout class="QGridLayout" name="gridLayout_12"/>
+    <item row="11" column="9">
+     <layout class="QGridLayout" name="gridLayout_7"/>
     </item>
-    <item row="9" column="12">
-     <layout class="QGridLayout" name="gridLayout_11">
-      <item row="4" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderThrMax">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="labelThreshMinNum">
-        <property name="text">
-         <string>1.5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="labelThreshMin">
-        <property name="text">
-         <string>最小值</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="labelThreshMaxNum">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QSlider" name="horizontalSliderThrMin">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="labelThreshMax">
-        <property name="text">
-         <string>最大值</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="checkBoxThreshold">
-        <property name="text">
-         <string>二值化(原图)</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="10" column="11">
+     <layout class="QGridLayout" name="gridLayout_6"/>
     </item>
-    <item row="11" column="0" rowspan="2" colspan="9">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="labelOther1">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelOther2">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelOther3">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="6" column="11">
-     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-    </item>
-    <item row="8" column="11">
-     <widget class="QPushButton" name="pushButtonPreImg">
-      <property name="text">
-       <string>上一张</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="12" rowspan="9">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButtonSelectImage">
-        <property name="text">
-         <string>选择图片</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QPushButton" name="pushButtonTurnRight">
-        <property name="text">
-         <string>右旋转</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>窗口图操作</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QPushButton" name="pushButtonTurnLeft">
-        <property name="text">
-         <string>左旋转</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="pushButtonCvtGray">
-        <property name="text">
-         <string>灰度化</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>原图操作</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="pushButtonEdgeDetection">
-        <property name="text">
-         <string>边缘检测</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="pushButtonShowOriginImg">
-        <property name="text">
-         <string>显示原图</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QPushButton" name="pushButtonMirrorHorizontal">
-        <property name="text">
-         <string>左右镜像</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="pushButtonGamma">
-        <property name="text">
-         <string>伽马变换</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QPushButton" name="pushButtonMirrorVertical">
-        <property name="text">
-         <string>上下镜像</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QPushButton" name="pushButtonMeanFilter">
-        <property name="text">
-         <string>均值滤波</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="4" column="11">
+     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
     </item>
    </layout>
   </widget>
